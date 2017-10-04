@@ -74,7 +74,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    JwtHelper, {
+    JwtHelper, 
+    {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions, Storage]
