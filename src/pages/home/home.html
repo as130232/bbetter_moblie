@@ -5,8 +5,25 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
+  <h2>Welcome to Ionic!</h2> 
+  <strong>{{user}}</strong>
+
+  <ion-buttons end>
+    <button ion-button icon-only (click)="logout()">
+      <ion-icon name="exit"></ion-icon>
+    </button>
+  </ion-buttons>
+
+  <ion-buttons>
+    <button ion-button icon-only (click)="test()">
+      <ion-icon name="test"></ion-icon>
+    </button>
+    <button ion-button icon-only (click)="test2()">
+      <ion-icon name="test2"></ion-icon>
+    </button>
+  </ion-buttons>
+
+  <p>Message is here:{{message}}
     This starter project comes with simple tabs-based layout for apps
     that are going to primarily use a Tabbed UI.
   </p>
@@ -14,4 +31,13 @@
     Take a look at the <code>src/pages/</code> directory to add or change tabs,
     update any existing page or create new pages.
   </p>
+  
+  <ion-list *ngFor="let item of listData">
+    <ion-item>
+      <ion-avatar item-left>
+        <img [src]="item?.url">
+      </ion-avatar>
+      {{item?.title}}
+    </ion-item>
+  </ion-list>
 </ion-content>

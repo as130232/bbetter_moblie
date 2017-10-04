@@ -1,0 +1,19 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>friends</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-list>
+  <button ion-item *ngFor="let friend of friends" (click)="friendSelected">
+    <ion-icon name="contact" item-left></ion-icon>
+    <h2>{{friend.name}}</h2>
+    <p>{{friend.email}}</p>
+  </button>
+</ion-list>
+</ion-content>
