@@ -16,7 +16,7 @@ export class AuthProvider {
   /* 利用RxJs庫提供的ReplaySubject，當授權狀態更改時通知應用程序的其他部分
    * authUser此物件代表著可觀察的被觀察者(主題)，當被呼叫時所有訂閱者將被通知，
    * 利用此機制從LoginPage重導回HomePage
-   * authUser是Observer觀察者 Observe:有三種狀態
+   * authUser是Observer觀察者 會接收Observable(主題)回傳的資訊，而Observe:有三種狀態
    * ●next:Observer接收到一個值(類似promise中的.then)
    * ●error:Observer接收到一個錯誤
    * ●complete:Observer接收到完成的訊息
@@ -29,6 +29,7 @@ export class AuthProvider {
               private readonly jwtHelper: JwtHelper) {
   }
   /* 
+   * 每次應用程序啟動時，它會調用authProvider的checkLogin（）函數。 此功能檢查JWT是否存儲在本地
    * authHttp:是種Observable(可觀察者、主題)，有以下幾種特性
    * ●Lazy:若沒有作subscribe，將不會被執行
    * ●Cancellable:在執行過程中，可隨時中斷取消行為，例:Server Site作大資料的Loading
@@ -56,6 +57,15 @@ export class AuthProvider {
       .map(response => response.text())
       .map(jwt => this.handleJwtResponse(jwt));
   }
+  
+  //facebook登入
+  //loginWithFb(userID: string, accessToken: string): Observable<any> {
+  loginWithFb(values: any): Observable<any> {
+    return this.http.post(`${SERVER_URL}/signin/facebook`, values)
+      .map(response => response.text())
+      .map(jwt => this.handleJwtResponse(jwt));
+  }
+  
   //登出
   logout() {
     this.storage.remove('jwt').then(() => this.authUser.next(null));

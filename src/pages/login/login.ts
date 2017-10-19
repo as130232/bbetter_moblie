@@ -1,67 +1,15 @@
+import { FB_APP_ID } from './../../config';
+import { SignupPage } from "../signup/signup";
+import { AuthProvider } from "../../providers/auth/auth";
+import { TabsPage } from "../tabs/tabs";
+import { IMember } from './../../model/member';
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
-import { TabsPage } from "../tabs/tabs";
 import { Http, Response } from '@angular/http';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
-//@IonicPage()
-// @Component({
-//   selector: 'page-login',
-//   templateUrl: 'login.html',
-// })
-
-
-// export class LoginPage {
-
-//   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private alertCtrl: AlertController, private http: Http) {
-//   }
-
-//   ionViewDidLoad() {
-//     console.log('ionViewDidLoad LoginPage');
-//   }
-//   //登入驗證
-//   login(email: HTMLInputElement, password: HTMLInputElement){
-//     let userInfo: string = '信箱：' + email.value  + '密碼：' + password.value;
-//     if(email.value.length == 0){
-//       let alert = this.alertCtrl.create({
-//         title: 'error',
-//         subTitle: '請輸入信箱',
-//         buttons: ['Ok']
-//       });
-//       alert.present();
-//       return false;
-//     } else if (password.value.length == 0){
-//       let alert = this.alertCtrl.create({
-//         title: 'error',
-//         subTitle: '請輸入密碼',
-//         buttons: ['Ok']
-//       });
-//       return false;
-//     }else{
-//       //this.navCtrl.push(TabsPage);
-//       // let modal = this.modalCtrl.create(TabsPage);
-//       // modal.present();
-
-//       // this.http.request('http://localhost:8081/api/member/1')
-//       // .subscribe((res: Response) => {
-//       //   // this.listData = res.json();
-//       //   console.log(res.json());
-//       // });
-      
-//       this.http.post('http://localhost:8081/login',userInfo)
-//       .subscribe((res: Response) => {
-//         // this.listData = res.json();
-//         console.log(res.json());
-//       });
-//     }
-//   }
-// }
-
-
-//import {Component} from '@angular/core';
-import {LoadingController, ToastController} from 'ionic-angular';
-import {SignupPage} from "../signup/signup";
-import {AuthProvider} from "../../providers/auth/auth";
 
 @IonicPage()
 @Component({
@@ -69,11 +17,15 @@ import {AuthProvider} from "../../providers/auth/auth";
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  test:string = 'test';
+  member:IMember; 
+
   constructor(private readonly navCtrl: NavController,
               private readonly loadingCtrl: LoadingController,
               private readonly authProvider: AuthProvider,
-              private readonly toastCtrl: ToastController) {
+              private readonly toastCtrl: ToastController,
+              private fb: Facebook,
+              private storage: Storage,
+              private http: Http) {
   }
 
   signup() {
@@ -98,7 +50,7 @@ export class LoginPage {
   //若有錯誤，顯示錯誤訊息
   handleError(error: any) {
     let message: string;
-    if (error.status && error.status === 401) {
+    if (error.status && error.status === 401 || error.status === 404) {
       message = 'Login failed';
       let errorObj = JSON.parse(error._body);
       message = errorObj.message;
@@ -110,10 +62,56 @@ export class LoginPage {
     const toast = this.toastCtrl.create({
       message,
       duration: 5000,
-      position: 'bottom'
     });
 
     toast.present();
+  }
+  //取得所有FB好友 this.fb.api('me/taggable_friends?fields=id,name,gender,email,picture.width(720).height(720).as(picture_large)', [])
+  loginWithFb(){
+    this.fb.login(['email', 'public_profile', 'user_friends'])
+    .then((res: FacebookLoginResponse) => {
+
+      let loading = this.loadingCtrl.create({
+        spinner: 'bubbles',
+        content: 'Facebook Logging in ...'
+      });
+      //向server端發出userId與token
+      this.authProvider.loginWithFb(res.authResponse)
+      .finally(() => loading.dismiss())
+      .subscribe(
+        () => {},
+        err => this.handleError(err));
+      
+        // this.fb.api('me?fields=id,name,gender,email,picture.width(720).height(720).as(picture_large)', [])
+        //     .then((profile)=> {
+        //       this.member = { 
+        //         memberId: profile.id,
+        //         name: profile.name,
+        //         email: profile.email,
+        //         address: "",
+        //         gender: profile.gender,
+        //         imageUrl: profile.picture_large.data.url,
+        //         money: null,
+        //         birthday: null,
+        //         token:""
+        //       }
+      
+        //       //將資訊傳遞給後端判斷是否有該會原，有的話回傳jwt，無的話建立該會員資訊
+        //       this.storage.set('member', this.member);
+        //     })
+        //     .catch(e=>{     
+
+        //          const toast = this.toastCtrl.create({
+        //           message: "驗證失敗",
+        //           duration: 5000,
+        //           position: 'bottom'
+        //         });
+        //         toast.present();
+        //     });            
+    })
+    .catch(e => {
+        
+    });
   }
 
 }

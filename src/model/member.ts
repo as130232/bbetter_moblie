@@ -7,4 +7,5 @@ export interface IMember{
     imageUrl: string;
     money: number;
     birthday: Date;
+    token:string;
 }

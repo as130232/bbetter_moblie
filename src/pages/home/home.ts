@@ -42,11 +42,17 @@ export class HomePage {
   //畫面載入初始化時
   ionViewDidLoad() {
     //取得該會員資訊，並存在本機端
-    this.authHttp.get(`${SERVER_URL}/api/member/self`)
-    .subscribe((res: Response) => {
+    this.authHttp.get(`${SERVER_URL}/api/member/me`)
+    .subscribe(
+      (res: Response) => {
       this.storage.set('memberInfo', res.json())
-      console.log("homePage:" + res.json());
-    });
+      console.log("homePage memberInfo:" + res.json());
+      },
+      err => {
+        let errorObj = JSON.parse(err._body);
+        console.log(errorObj.message)
+      }
+    );
   }
 
   logout() {
@@ -54,13 +60,6 @@ export class HomePage {
   }
 
   test() {
-    // let myHeader = new Headers();
-    // myHeader.append('Content-Type', 'application/json');
-    // this.authHttp.get(`${SERVER_URL}/api/member/1/friends`)
-    //   .subscribe((res: Response) => {
-    //     // this.listData = res.json();
-    //     console.log(res.json());
-    //   });
     let memberInfo = this.storage.get('memberInfo');
     console.log(memberInfo);
   }
@@ -80,29 +79,5 @@ export class HomePage {
       err => console.log(err)
     );
     console.log(this.message);
-
-    // let myHeader = new Headers();
-    // myHeader.append('Content-Type', 'application/json');
-    // myHeader.append('Authorization','Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ZDJhNzVlMi1mOTA1LTRkOTUtYWIzZi04YjkxMTAwZjRiMzQiLCJzdWIiOiJhczEzMDIzMkBnbWFpbC5jb20iLCJpYXQiOjE1MDY2MDgyMTksImV4cCI6MTUwOTIwMDIxOX0.GmXz51pMGmHqE7--8QJMfKFXwlbxoAs0uN6bCnKBdZv8CwlT79yAu740bhG7zeiZVleIm3wnu6-dpFkETCdvzg');
-    // let options = new RequestOptions({ headers: headers });
-    // this.authHttp.get(`${SERVER_URL}/api/members`, { headers: myHeader })
-    //   .subscribe(
-    //     data => this.message = data.text(),
-    //     err => console.log(err),
-    //     () => console.log('Request Complete')
-    //   );
-  
-    // Pass it after the body in a POST request
-    // this.authHttp.post('http://example.com/api/thing', 'post body', { headers: myHeader })
-    //   .subscribe(
-    //     data => this.message = data.text(),
-    //     err => console.log(err),
-    //     () => console.log('Request Complete')
-    //   );
-
-    // this.authHttp.get(`${SERVER_URL}/secret`).subscribe(
-    //   data => this.message = data.text(),
-    //   err => console.log(err)
-    // );
   }
 }

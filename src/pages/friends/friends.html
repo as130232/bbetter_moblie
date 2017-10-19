@@ -10,7 +10,10 @@
 
 <ion-content padding>
 <ion-list>
-  <button ion-item *ngFor="let friend of friends" (click)="friendSelected">
+  <button ion-item *ngFor="let friend of friends" 
+  [navPush]="friendcontentPage"
+  [navParams]="friend"
+  >
     <ion-icon name="contact" item-left></ion-icon>
     <h2>{{friend.name}}</h2>
     <p>{{friend.email}}</p>

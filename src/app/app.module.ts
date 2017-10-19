@@ -1,3 +1,5 @@
+import { SchedulePage } from './../pages/schedule/schedule';
+import { FriendcontentPage } from './../pages/friends/friendcontent/friendcontent';
 import { FriendsPage } from './../pages/friends/friends';
 import { AuthProvider } from './../providers/auth/auth';
 import { AboutPage } from '../pages/about/about';
@@ -19,7 +21,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage, IonicStorageModule} from "@ionic/storage";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { Facebook } from '@ionic-native/facebook';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
   const authConfig = new AuthConfig({
@@ -36,12 +38,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage,
-    SettingPage,
     LoginPage,
     SignupPage,
-    FriendsPage
+    TabsPage,
+    HomePage,
+    SchedulePage,
+    SettingPage,
+    FriendsPage,
+    FriendcontentPage
   ],
   //若有使用到其它模組的元件或服務，在此import進來(讓底下Component都可以使用這些外部import的Module)
   imports: [
@@ -61,12 +65,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     MyApp,
     AboutPage,
     ContactPage,
-    HomePage,
-    TabsPage,
-    SettingPage,
     LoginPage,
     SignupPage,
-    FriendsPage
+    TabsPage,
+    HomePage,
+    SchedulePage,
+    SettingPage,
+    FriendsPage,
+    FriendcontentPage
   ],
   //用來列出模組需要用的共用Service
   providers: [
@@ -79,7 +85,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions, Storage]
-    }
+    },
+    Facebook
   ]
 })
 export class AppModule {}

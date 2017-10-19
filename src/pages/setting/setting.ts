@@ -14,17 +14,17 @@ import { Storage } from "@ionic/storage";
   templateUrl: 'setting.html',
 })
 export class SettingPage implements OnInit{
-  member:IMember = { 
-    memberId: null,
-    name: "",
-    email: "",
-    address: "",
-    gender: "",
-    imageUrl: "",
-    money: 0,
-    birthday: null
-  };
-  //member:{IMember};
+  // member:IMember = { 
+  //   memberId: null,
+  //   name: "",
+  //   email: "",
+  //   address: "",
+  //   gender: "",
+  //   imageUrl: "",
+  //   money: 0,
+  //   birthday: null
+  // };
+  member:IMember;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,
     private readonly authProvider: AuthProvider,
@@ -35,9 +35,10 @@ export class SettingPage implements OnInit{
   }
 
   ngOnInit() {
-    this.storage.get('memberInfo').then((val:IMember) => {
+    this.storage.get('memberInfo')
+    .then((val:IMember) => {
       this.member = val;
-    });
+    })
   }
   
   ionViewDidLoad() {

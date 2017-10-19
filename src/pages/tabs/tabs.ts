@@ -1,3 +1,4 @@
+import { SchedulePage } from './../schedule/schedule';
 import { FriendsPage } from './../friends/friends';
 import { Component } from '@angular/core';
 import { AboutPage } from '../about/about';
@@ -21,14 +22,19 @@ export class TabsPage {
         tabIcon: 'home'
       },
       {
+        root: SchedulePage,
+        tabTitle: '行程',
+        tabIcon: 'md-calendar'
+      },
+      {
         root: AboutPage,
-        tabTitle: 'About',
-        tabIcon: 'document'
+        tabTitle: '寵物',
+        tabIcon: 'md-bug'
       },
       {
         root: FriendsPage,
         tabTitle: '好友',
-        tabIcon: 'md-people'
+        tabIcon: 'md-contacts'
       },
       {
         root: SettingPage,

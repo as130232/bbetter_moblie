@@ -1,3 +1,6 @@
+import { IFriend } from './../../model/friend';
+import { FriendcontentPage } from './friendcontent/friendcontent';
+
 import { IMember } from './../../model/member';
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -12,18 +15,9 @@ import { Storage } from "@ionic/storage";
   templateUrl: 'friends.html',
 })
 export class FriendsPage implements OnInit{
-  member:IMember = { 
-    memberId: null,
-    name: "",
-    email: "",
-    address: "",
-    gender: "",
-    imageUrl: "",
-    money: 0,
-    birthday: null
-  };
-
-  friends = [];
+  friendcontentPage = FriendcontentPage;
+  member:IMember;
+  friends:IFriend[];
 
   constructor(
     public navCtrl: NavController, 
@@ -50,9 +44,8 @@ export class FriendsPage implements OnInit{
   }
   
   ionViewDidLoad() {
-  
   }
-
+  
   friendSelected(){
 
   }
