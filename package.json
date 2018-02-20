@@ -59,7 +59,8 @@
             }
         },
         "platforms": [
-            "browser"
+            "browser",
+            "ios"
         ]
     }
 }

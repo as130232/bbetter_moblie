@@ -1,7 +1,10 @@
+import {AuthProvider} from "../../providers/auth/auth";
+import {SERVER_URL} from "../../config";
+
 import {Component, ViewChild} from '@angular/core';
 import {LoadingController, ToastController} from 'ionic-angular';
 import {NgModel} from "@angular/forms";
-import {AuthProvider} from "../../providers/auth/auth";
+import {Http} from "@angular/http";
 
 @Component({
   selector: 'page-signup',
@@ -12,7 +15,8 @@ export class SignupPage {
   @ViewChild('username')
   usernameModel: NgModel;
 
-  constructor(private readonly authProvider: AuthProvider,
+  constructor(private readonly http: Http,
+              private readonly authProvider: AuthProvider,
               private readonly loadingCtrl: LoadingController,
               private readonly toastCtrl: ToastController) {
   }
@@ -68,4 +72,19 @@ export class SignupPage {
     toast.present();
   }
 
+
+  checkIsEmailRegistered(email : string){
+    console.log(email);
+    //檢查email是否格式正確
+
+    //檢查該email是否已被註冊
+    this.http.get(`${SERVER_URL}/public/checkIsEmailRegistered`, {params: {"email":email}})
+    .subscribe(res => {
+      console.log('result:' + res.json());
+    }, (err) => {
+      console.log(err);
+    });
+ 
+    
+  }
 }

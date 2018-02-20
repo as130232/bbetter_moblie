@@ -1,9 +1,11 @@
-import { SchedulePage } from './../pages/schedule/schedule';
-import { FriendcontentPage } from './../pages/friends/friendcontent/friendcontent';
+import { TouchEventComponet } from './../components/touch-event.component';
+import { SettingService } from './../service/setting';
+import { PetPage } from './../pages/pet/pet';
+import { SchedulePage } from './../pages/schedule-had/schedule/schedule';
+import { ScheduleHadPage } from './../pages/schedule-had/schedule-had';
+import { FriendContentPage } from './../pages/friends/friend-content/friend-content';
 import { FriendsPage } from './../pages/friends/friends';
 import { AuthProvider } from './../providers/auth/auth';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SignupPage } from './../pages/signup/signup';
@@ -15,7 +17,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { Http, HttpModule, RequestOptions} from "@angular/http";
 import { JwtHelper, AuthConfig, AuthHttp} from "angular2-jwt";
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation'
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage, IonicStorageModule} from "@ionic/storage";
@@ -36,16 +37,17 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   //聲明屬於這個模組的Component、Pipe、Directives，然後就可以在模組中使用這些元件
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
+    TouchEventComponet,
     LoginPage,
     SignupPage,
     TabsPage,
     HomePage,
+    ScheduleHadPage,
     SchedulePage,
+    PetPage,
     SettingPage,
     FriendsPage,
-    FriendcontentPage
+    FriendContentPage
   ],
   //若有使用到其它模組的元件或服務，在此import進來(讓底下Component都可以使用這些外部import的Module)
   imports: [
@@ -63,16 +65,16 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
   //通常是用來宣告不通過Route動態加入到DOM中的元件，指定在這裡的元件將會在這個模組定義的時候進行編譯。
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
     LoginPage,
     SignupPage,
     TabsPage,
     HomePage,
+    ScheduleHadPage,
     SchedulePage,
+    PetPage,
     SettingPage,
     FriendsPage,
-    FriendcontentPage
+    FriendContentPage
   ],
   //用來列出模組需要用的共用Service
   providers: [
@@ -86,7 +88,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions, Storage]
     },
-    Facebook
+    Facebook,
+    SettingService,
   ]
 })
 export class AppModule {}

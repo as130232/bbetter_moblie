@@ -1,8 +1,7 @@
-import { SchedulePage } from './../schedule/schedule';
+import { ScheduleHadPage } from './../schedule-had/schedule-had';
+import { PetPage } from './../pet/pet';
 import { FriendsPage } from './../friends/friends';
 import { Component } from '@angular/core';
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { SettingPage } from './../setting/setting';
 @Component({
@@ -10,9 +9,6 @@ import { SettingPage } from './../setting/setting';
 })
 export class TabsPage {
 
-  // tab1Root = HomePage;
-  // tab2Root = AboutPage;
-  // tab3Root = SettingsPage;
   tabRoots: Object[];
   constructor() {
     this.tabRoots = [
@@ -22,12 +18,12 @@ export class TabsPage {
         tabIcon: 'home'
       },
       {
-        root: SchedulePage,
+        root: ScheduleHadPage,
         tabTitle: '行程',
         tabIcon: 'md-calendar'
       },
       {
-        root: AboutPage,
+        root: PetPage,
         tabTitle: '寵物',
         tabIcon: 'md-bug'
       },

@@ -1,13 +1,11 @@
-import { FB_APP_ID } from './../../config';
 import { SignupPage } from "../signup/signup";
 import { AuthProvider } from "../../providers/auth/auth";
-import { TabsPage } from "../tabs/tabs";
 import { IMember } from './../../model/member';
 
 import { Component } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 
@@ -22,10 +20,8 @@ export class LoginPage {
   constructor(private readonly navCtrl: NavController,
               private readonly loadingCtrl: LoadingController,
               private readonly authProvider: AuthProvider,
-              private readonly toastCtrl: ToastController,
               private fb: Facebook,
-              private storage: Storage,
-              private http: Http) {
+              private alertCtrl: AlertController) {
   }
 
   signup() {
@@ -59,12 +55,25 @@ export class LoginPage {
       message = `Unexpected error: ${error.statusText}`;
     }
 
-    const toast = this.toastCtrl.create({
-      message,
-      duration: 5000,
-    });
+    // const toast = this.toastCtrl.create({
+    //   message,
+    //   duration: 5000,
+    // });
+    // toast.present();
 
-    toast.present();
+    const alert = this.alertCtrl.create({
+      title: 'Login failed',
+      message: message,
+      buttons: [
+        {
+          text:'OK',
+          handler:() =>{
+            //dosomthing
+          }
+        }
+      ]
+    });
+    alert.present();
   }
   //取得所有FB好友 this.fb.api('me/taggable_friends?fields=id,name,gender,email,picture.width(720).height(720).as(picture_large)', [])
   loginWithFb(){

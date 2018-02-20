@@ -1,0 +1,52 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons>
+        <button ion-button>
+          <ion-icon name="ios-add-outline"></ion-icon>
+        </button>
+      </ion-buttons>
+    <ion-title>scheduleHad</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item-sliding *ngFor="let scheduleHad of scheduleHads"> 
+      <button ion-item
+        [navPush]="schedulePage"
+        [navParams]="scheduleHad"
+      >
+        <ion-icon name="contact" item-left></ion-icon>
+        <h2>{{scheduleHad.scheduleInfo.name}}</h2>
+        <p>{{scheduleHad.scheduleInfo.startTime}}</p>
+      </button>
+      <ion-item-options>
+        <button 
+          ion-button 
+          color="danger"
+          (click)="onRemoveScheduleHad(scheduleHad)"
+        >
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+    
+    <!-- <button ion-item *ngFor="let scheduleHad of scheduleHads"
+    [navPush]="schedulePage"
+    [navParams]="scheduleHad"> 
+      <ion-icon name="contact" item-left></ion-icon>
+      <h2>{{scheduleHad.scheduleInfo.name}}</h2>
+      <p>{{scheduleHad.scheduleInfo.startTime}}</p>
+    </button> -->
+  </ion-list>
+</ion-content>

@@ -9,14 +9,28 @@
 
 
 <ion-content padding>
-<ion-list>
-  <button ion-item *ngFor="let friend of friends" 
-  [navPush]="friendcontentPage"
-  [navParams]="friend"
-  >
-    <ion-icon name="contact" item-left></ion-icon>
-    <h2>{{friend.name}}</h2>
-    <p>{{friend.email}}</p>
-  </button>
-</ion-list>
+ <!--  <ion-list>
+    <button ion-item *ngFor="let friend of friends" (click)="onViewFriend(friend)">
+   [navPush]="friendContentPage"
+    [navParams]="friend"> 
+<ion-icon name="contact" item-left></ion-icon>
+
+      <ion-img width="180" height="180" src="https://graph.facebook.com/v2.8/1893671907315151/picture?type=large"></ion-img>
+  
+      <h2>{{friend.name}}</h2>
+      <p>{{friend.email}}</p>
+    </button>
+  </ion-list>
+   -->
+
+  <ion-list>
+    <ion-item *ngFor="let friend of friends" (click)="onViewFriend(friend)">
+      <ion-avatar item-start>
+        <img src={{friend.imageUrl}}>
+      </ion-avatar>
+      <h2>{{friend.name}}</h2>
+      <h3>Don't Know What To Do!</h3>
+      <p>{{friend.email}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

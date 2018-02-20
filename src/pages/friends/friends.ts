@@ -1,11 +1,11 @@
+import { FriendContentPage } from './friend-content/friend-content';
 import { IFriend } from './../../model/friend';
-import { FriendcontentPage } from './friendcontent/friendcontent';
-
 import { IMember } from './../../model/member';
-import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Http, Response } from '@angular/http';
 import { SERVER_URL } from "../../config";
+
+import { Component, OnInit } from '@angular/core';
+import { IonicPage, ModalController } from 'ionic-angular';
+import { Http, Response } from '@angular/http';
 import { JwtHelper, AuthHttp} from "angular2-jwt";
 import { Storage } from "@ionic/storage";
 
@@ -14,20 +14,21 @@ import { Storage } from "@ionic/storage";
   selector: 'page-friends',
   templateUrl: 'friends.html',
 })
-export class FriendsPage implements OnInit{
-  friendcontentPage = FriendcontentPage;
+export class FriendsPage{
+  friendContentPage = FriendContentPage
   member:IMember;
   friends:IFriend[];
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
     private readonly authHttp: AuthHttp,
     private readonly storage: Storage, 
+    private modalCtrl: ModalController
   ) {
   }
 
-  ngOnInit() {
+  // ngOnInit() {
+  ionViewWillEnter(){
+    //get memberInfo
     this.storage.get('memberInfo')
     .then((val:IMember) => {
       this.member = val;
@@ -35,18 +36,18 @@ export class FriendsPage implements OnInit{
     .then(() => {
       let memberId = this.member.memberId;
       //取得該好友列表
-      this.authHttp.get(`${SERVER_URL}/api/member/${memberId}/friends`)
+      this.authHttp.get(`${SERVER_URL}/api/member/me/friends`)
       .subscribe((res: Response) => {
           this.friends = res.json();
-          console.log(this.friends);
       });
     })
   }
-  
-  ionViewDidLoad() {
-  }
-  
-  friendSelected(){
 
+  onViewFriend(friend:IFriend){
+    //將好友資訊傳遞給該頁面
+    const modal = this.modalCtrl.create(FriendContentPage, friend);
+    modal.present();
   }
+  
+
 }

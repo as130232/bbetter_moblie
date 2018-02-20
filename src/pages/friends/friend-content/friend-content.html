@@ -1,0 +1,18 @@
+
+<ion-header>
+  
+  <ion-navbar>
+    <ion-title>{{friend?.name | uppercase}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+  
+  
+<ion-content padding>
+  <ion-list class="top-list">
+    <ion-img width="180" height="180" src={{friend?.imageUrl}}></ion-img>
+    <p>{{friend?.email}}</p>
+    <button center ion-button color="danger" (click) = "onClose()">Close</button>
+  </ion-list>
+</ion-content>
+  

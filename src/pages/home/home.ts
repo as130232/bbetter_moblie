@@ -16,8 +16,7 @@ export class HomePage {
   //Interpolation (類似實體變數)
   //接收數據物件
   listData: Object;
-  user: string;
-  message: string;
+  member:IMember;
   
   
   //依賴注入
@@ -27,26 +26,16 @@ export class HomePage {
     private readonly storage: Storage, 
     private http: Http) {
 
-    this.authProvider.authUser.subscribe(jwt => {
-      if (jwt) {
-        const decoded = jwtHelper.decodeToken(jwt)
-        this.user = decoded.sub;
-      }
-      else {
-        this.user = null;
-      }
-    });
-
   }
 
-  //畫面載入初始化時
+  //頁面加載時運行。此事件僅在每個頁面創建時發生一次。如果一個頁面離開但被緩存，則此事件將不會在後續查看時再次啟動
   ionViewDidLoad() {
     //取得該會員資訊，並存在本機端
     this.authHttp.get(`${SERVER_URL}/api/member/me`)
     .subscribe(
       (res: Response) => {
-      this.storage.set('memberInfo', res.json())
-      console.log("homePage memberInfo:" + res.json());
+        this.member = res.json();
+        this.storage.set('memberInfo', this.member);
       },
       err => {
         let errorObj = JSON.parse(err._body);
@@ -59,25 +48,4 @@ export class HomePage {
     this.authProvider.logout();
   }
 
-  test() {
-    let memberInfo = this.storage.get('memberInfo');
-    console.log(memberInfo);
-  }
-
-  test2() {
-    // let myHeader = new Headers();
-    // myHeader.append('Content-Type', 'application/json');
-  
-    // this.authHttp.get(`${SERVER_URL}/api/members`)
-    //   .subscribe((res: Response) => {
-    //     // this.listData = res.json();
-    //     console.log(res.json());
-    //   });
-
-    this.authHttp.get(`${SERVER_URL}/api/members`).subscribe(
-      data => this.message = data.text(),
-      err => console.log(err)
-    );
-    console.log(this.message);
-  }
 }

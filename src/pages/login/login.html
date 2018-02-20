@@ -71,11 +71,13 @@
         <button ion-button color="secondary" block type="button" (click)="signup()">Sign up</button>
       </div>
 
-      <div padding>
-        <button ion-button color="secondary" block type="button" (click)="loginWithFb()">Facebook Login</button>
-      </div>
     </ion-list>
   </form>
+          <div padding>
+            <button ion-button color="facebook" block icon-only icon-left (click)="loginWithFb()">
+              <ion-icon name="logo-facebook"></ion-icon>Login with Facebook
+            </button>
+          </div>
 
   <div class="container" padding>
     <pre>
